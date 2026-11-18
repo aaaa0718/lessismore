@@ -1,0 +1,18 @@
+AI background removal dependencies
+
+ONNX Runtime Web 1.20.1
+Copyright (c) Microsoft Corporation. MIT License.
+https://github.com/microsoft/onnxruntime/tree/v1.20.1
+Full license: vendor/ONNX-RUNTIME-LICENSE.txt
+
+U²-Netp
+Copyright 2020 Xuebin Qin, Daniel De Almeida, and contributors.
+Apache License 2.0.
+https://github.com/xuebinqin/U-2-Net
+Model distribution: https://github.com/danielgatis/rembg/releases/download/v0.0.0/u2netp.onnx
+Byte-identical mirror: https://huggingface.co/edgetools/u2netp
+SHA256: 309c8469258dda742793dce0ebea8e6dd393174f89934733ecc8b14c76f4ddd8
+Full license: vendor/U2NET-LICENSE.txt
+
+The model is used unmodified. Image preparation, local inference integration,
+mask application, and UI are implemented in this project.
