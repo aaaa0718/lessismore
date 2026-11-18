@@ -13,7 +13,7 @@ export const BRANDS = [
   ['煲珠公', '煲珠', '#2964aa', 'baozhugong'], ['李若桃', '若桃', '#857354', 'liruotao'],
   ['幸运咖', '幸运', '#cf2636', 'luckycup'], ['BeanStar 比星咖啡', '比星', '#2ca8dc', 'beanstar'],
   ['代数学家', '代数', '#d9362c', 'algebraist'],
-].map(([name, mark, color, id]) => ({ name, mark, color, id, logo: ({heytea: 'webp', chagee: 'png', guming: 'webp', chabaidao: 'webp', hushang: 'webp', mixue: 'ico', nayuki: 'webp', chayan: 'webp', coco: 'webp', yidiandian: 'png', luckin: 'png', starbucks: 'png', koi: 'webp', costa: 'webp', grid: 'webp', mstand: 'webp', manner: 'webp', lelecha: 'webp', molly: 'webp', yeye: 'webp', ahma: 'webp', quchashan: 'webp', luckycup: 'webp', beanstar: 'webp', algebraist: 'webp'})[id] }));
+].map(([name, mark, color, id]) => ({ name, mark, color, id, logo: ({heytea: 'webp', chagee: 'webp', guming: 'webp', chabaidao: 'webp', hushang: 'webp', mixue: 'webp', nayuki: 'webp', chayan: 'webp', coco: 'webp', yidiandian: 'webp', luckin: 'webp', starbucks: 'webp', koi: 'webp', costa: 'webp', grid: 'webp', mstand: 'webp', manner: 'webp', lelecha: 'webp', molly: 'webp', yeye: 'webp', ahma: 'webp', quchashan: 'webp', luckycup: 'webp', beanstar: 'webp', algebraist: 'webp'})[id] }));
 export function recentBrands(records) {
   return [...new Set([...records].sort((a, b) => b.date.localeCompare(a.date)).map(row => row.brand.trim()).filter(Boolean))].slice(0, 4);
 }
