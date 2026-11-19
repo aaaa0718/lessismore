@@ -1,3 +1,5 @@
+import PageHeader from '../components/ui/PageHeader.jsx';
+import ActionButton from '../components/ui/ActionButton.jsx';
 import { useRef, useState } from 'react';
 import { useDiary } from '../state/DiaryContext.jsx';
 import { STORAGE_KEY } from '../lib/records.js';
@@ -29,8 +31,8 @@ export default function BackupPage() {
     } catch (error) { setResult(error.message || '无法导入，请选择有效的杯杯小账本 JSON 备份。'); }
     finally { setWorking(false); }
   }
-  return <section className="mx-auto max-w-2xl py-7 sm:py-10"><h1 className="text-xl font-medium">给记录留个备份</h1><p className="mb-7 mt-2 text-xs text-muted">换手机之前，记得把这些杯带走。</p>
-    <div className="paper-panel"><p className="font-serif text-4xl">{records.length} <span className="font-sans text-sm">杯记录</span></p><p className="mt-3 text-sm leading-loose text-muted">记录只保存在当前浏览器，清除浏览器数据或换设备后不会自动同步。导出的 JSON 备份包含饮品照片，可以在新设备导入。</p><div className="mt-6 flex flex-wrap gap-3"><button className="btn-primary" onClick={exportBackup}>{error ? '导出原始数据' : '↗ 导出备份'}</button><button className="btn-small px-5" disabled={working || !!error} onClick={() => file.current.click()}>{working ? '正在导入…' : '↙ 导入备份'}</button><input ref={file} className="hidden" type="file" accept="application/json,.json" aria-label="导入备份" onChange={importFile} /></div><p className="mt-4 text-[11px] leading-relaxed text-muted">支持旧版备份。导入会合并记录，相同 ID 不会重复添加，也不会覆盖现有内容。</p>{result && <p className="mt-4 rounded-md bg-lilac/30 p-3 text-sm" role="status">{result}</p>}</div>
+  return <section className="mx-auto max-w-2xl py-7 sm:py-10"><PageHeader title="给记录留个备份" description="换手机之前，记得把这些杯带走。" />
+    <div className="paper-panel"><p className="font-serif text-4xl">{records.length} <span className="font-sans text-sm">杯记录</span></p><p className="mt-3 text-sm leading-loose text-muted">记录只保存在当前浏览器，清除浏览器数据或换设备后不会自动同步。导出的 JSON 备份包含饮品照片，可以在新设备导入。</p><div className="mt-6 flex flex-wrap gap-3"><ActionButton onClick={exportBackup}>{error ? '导出原始数据' : '↗ 导出备份'}</ActionButton><ActionButton variant="secondary" disabled={working || !!error} onClick={() => file.current.click()}>{working ? '正在导入…' : '↙ 导入备份'}</ActionButton><input ref={file} className="hidden" type="file" accept="application/json,.json" aria-label="导入备份" onChange={importFile} /></div><p className="mt-4 text-[11px] leading-relaxed text-muted">支持旧版备份。导入会合并记录，相同 ID 不会重复添加，也不会覆盖现有内容。</p>{result && <p className="mt-4 rounded-md bg-lilac/30 p-3 text-sm" role="status">{result}</p>}</div>
     <div className="paper-panel mt-5 bg-sky/35"><h2 className="text-sm font-medium">关于照片与 AI 抠图</h2><p className="mt-3 text-xs leading-loose text-muted">照片在本机处理，不上传服务器。首次加载约 16MB AI 组件，支持分段重试和缓存；换浏览器或清除缓存后需要重新加载。照片会占用本地存储空间，建议定期导出备份。</p></div>
   </section>;
 }

@@ -6,13 +6,12 @@ import RecordsPage from './pages/RecordsPage.jsx';
 import BackupPage from './pages/BackupPage.jsx';
 import CollectionPage from './pages/CollectionPage.jsx';
 import RecordEditor from './components/RecordEditor.jsx';
-import AaReaction from './components/AaReaction.jsx';
 import Opening from './components/Opening.jsx';
 import { useDiary } from './state/DiaryContext.jsx';
-import { asset } from './lib/assets.js';
+import { asset, winterStampSrc } from './lib/assets.js';
 
 export default function App() {
-  const { editor, error, notice, noticeKind } = useDiary();
+  const { editor, error, notice } = useDiary();
   const { pathname } = useLocation();
   useEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' }); }, [pathname]);
   return <><Opening /><div className={`diary-shell ${pathname === "/" ? "is-home" : ""} mx-auto max-w-[1200px] px-4 sm:px-8 lg:px-12`}>
@@ -25,9 +24,15 @@ export default function App() {
     <main id="main-content"><Routes><Route path="/" element={<HomePage />} /><Route path="/calendar" element={<CalendarPage />} /><Route path="/records" element={<RecordsPage />} /><Route path="/collection" element={<CollectionPage />} /><Route path="/backup" element={<BackupPage />} /><Route path="*" element={<section className="py-20 text-center"><h1 className="text-xl">这一页还没有记录</h1><Link className="btn-primary mt-5 inline-block" to="/">回到本周</Link></section>} /></Routes></main>
     <footer className="mt-8 flex flex-col justify-between gap-3 border-t border-line py-7 text-[10px] text-muted sm:flex-row"><span>♧ AA的杯杯小账本</span><span>仅保存在当前浏览器 · 记得偶尔备份 ♡</span></footer>
     {editor && <RecordEditor key={editor.key} record={editor.record} date={editor.date} />}
-    {notice && (noticeKind === 'saved'
-      ? <div className="aa-saved-notice" role="status"><AaReaction mood="saved" /><span>{notice}</span></div>
-      : <div className="fixed bottom-6 left-1/2 z-50 max-w-[90vw] -translate-x-1/2 rounded-md bg-ink px-5 py-3 text-center text-xs text-white shadow-lg" role="status">{notice}</div>)}
+    {notice && (notice.flavor
+      ? <div key={notice.key} className="aa-saved-notice" role="status">
+          <span className="aa-saved-art" aria-hidden="true">
+            <img src={winterStampSrc(notice.flavor)} width="88" height="84" alt="" />
+            <span className="aa-saved-sparkle">✦</span>
+          </span>
+          <span>{notice.text}</span>
+        </div>
+      : <div className="fixed bottom-6 left-1/2 z-50 max-w-[90vw] -translate-x-1/2 rounded-md bg-ink px-5 py-3 text-center text-xs text-white shadow-lg" role="status">{notice.text}</div>)}
   </div></>;
 }
 

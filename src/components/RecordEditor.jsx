@@ -1,3 +1,4 @@
+import ActionButton from './ui/ActionButton.jsx';
 import { createId } from '../lib/id.js';
 import { useEffect, useRef, useState } from 'react';
 import { CATEGORIES, ICES, SUGARS } from '../lib/records.js';
@@ -50,7 +51,7 @@ export default function RecordEditor({ record, date }) {
   return <dialog ref={dialog} onCancel={event => { event.preventDefault(); closeEditor(); }} className="record-dialog">
     <form onSubmit={submit} noValidate className="record-form">
       <header className="record-form-header">
-      <div className="flex items-center justify-between gap-4"><h2 className="text-lg font-medium">{record ? '编辑这杯记录' : '来，报一下这杯'}</h2><button className="btn-icon" type="button" aria-label="关闭" onClick={closeEditor}>×</button></div>
+      <div className="flex items-center justify-between gap-4"><h2 className="text-lg font-medium">{record ? '编辑这杯记录' : '来，报一下这杯'}</h2><ActionButton variant="icon" aria-label="关闭" onClick={closeEditor}>×</ActionButton></div>
       <p className="mt-1 text-xs text-muted">日期、品类、品牌、饮品名必填，其他选填。</p>
       </header>
       <div className="record-form-body">
@@ -81,7 +82,7 @@ export default function RecordEditor({ record, date }) {
       <footer className="record-form-footer">
         <p className="text-xs text-muted" aria-live="polite">{busy ? '照片处理完成后即可保存' : Object.values(errors).join('；') || '信息已填好，可以记下这杯了'}</p>
         {error && <p className="text-xs text-rose-900" role="alert">{error}</p>}
-        <div className="flex items-center gap-4">{record && <button type="button" className="text-xs text-rose-800 shrink-0" onClick={deleteRecord} disabled={busy}>删除这杯</button>}<button type="submit" className="btn-primary record-save" disabled={!canSave}>{busy ? '贴纸处理中…' : record ? '保存修改' : '记一杯'}</button></div>
+        <div className="flex items-center gap-4">{record && <button type="button" className="text-xs text-rose-800 shrink-0" onClick={deleteRecord} disabled={busy}>删除这杯</button>}<ActionButton type="submit" className="record-save" disabled={!canSave}>{busy ? '贴纸处理中…' : record ? '保存修改' : '记一杯'}</ActionButton></div>
       </footer>
     </form>
   </dialog>;

@@ -5,3 +5,5 @@ export function photoSrc(record) {
   const kind = /抹茶|matcha/i.test(name) ? 'matcha' : /咖啡|拿铁|美式|摩卡|coffee|latte/i.test(name) ? 'coffee' : 'milk';
   return asset(`drinks/${kind}.webp`);
 }
+
+export const winterStampSrc = (flavor) => asset(`stamps/winter/${flavor}.webp`);

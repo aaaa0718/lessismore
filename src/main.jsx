@@ -4,6 +4,7 @@ import { HashRouter } from 'react-router';
 import { DiaryProvider } from './state/DiaryContext.jsx';
 import App from './App.jsx';
 import './styles.css';
+import './components/ui/ui.css';
 
 class StartupBoundary extends React.Component {
   state = { failed: false };

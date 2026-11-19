@@ -4,6 +4,7 @@ import { readStore, writeStore, STORAGE_KEY, decodeRecords, parseBackup, mergeRe
 import { dateKey } from '../lib/dates.js';
 import { playSound } from '../lib/sounds.js';
 import { drinkStampKey } from '../lib/collection.js';
+import { resolveStampDesign } from '../lib/stampDesigns.js';
 
 const DiaryContext = createContext(null);
 export function DiaryProvider({ children }) {
@@ -12,12 +13,12 @@ export function DiaryProvider({ children }) {
   });
   const current = useRef(store);
   const [editor, setEditor] = useState(null);
-  const [notice, setNotice] = useState('');
-  const [noticeKind, setNoticeKind] = useState('info');
+  const [notice, setNotice] = useState(null);
   const timer = useRef();
-  const notify = useCallback((text, kind = 'info') => {
-    setNoticeKind(kind); setNotice(text); clearTimeout(timer.current);
-    timer.current = setTimeout(() => setNotice(''), 4500);
+  const notify = useCallback((text, flavor) => {
+    setNotice({ text, flavor, key: createId() });
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => setNotice(null), 4500);
   }, []);
   useEffect(() => {
     const changed = event => {
@@ -39,11 +40,12 @@ export function DiaryProvider({ children }) {
   }
   function save(record) {
     const newStamp = !current.current.records.some(row => drinkStampKey(row) === drinkStampKey(record));
-    commit(rows => {
-      const stampDesign = record.stampDesign || rows.find(row => drinkStampKey(row) === drinkStampKey(record) && row.stampDesign)?.stampDesign;
-      return [...rows.filter(row => row.id !== record.id), { ...record, ...(stampDesign ? { stampDesign } : {}) }];
-    });
-    notify('这杯已归入 AA 名下。', 'saved');
+    const stampDesign = record.stampDesign || current.current.records.find(row =>
+      drinkStampKey(row) === drinkStampKey(record) && row.stampDesign
+    )?.stampDesign;
+    const savedRecord = { ...record, ...(stampDesign ? { stampDesign } : {}) };
+    commit(rows => [...rows.filter(row => row.id !== record.id), savedRecord]);
+    notify('这杯已归入 AA 名下。', resolveStampDesign(savedRecord).flavor);
     void playSound('saved', { newStamp });
   }
   function remove(id) { commit(rows => rows.filter(row => row.id !== id)); notify('这杯记录已删除'); }
@@ -58,6 +60,6 @@ export function DiaryProvider({ children }) {
     return added;
   }
   const openEditor = (record = null, date = dateKey(new Date())) => setEditor({ record, date, key: createId() });
-  return <DiaryContext.Provider value={{ ...store, editor, openEditor, closeEditor: () => setEditor(null), save, remove, setStampDesign, notify, notice, noticeKind, importBackup }}>{children}</DiaryContext.Provider>;
+  return <DiaryContext.Provider value={{ ...store, editor, openEditor, closeEditor: () => setEditor(null), save, remove, setStampDesign, notify, notice, importBackup }}>{children}</DiaryContext.Provider>;
 }
 export function useDiary() { return useContext(DiaryContext); }

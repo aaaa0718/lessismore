@@ -1,3 +1,4 @@
+import ActionButton from './ui/ActionButton.jsx';
 import { useEffect, useRef, useId } from 'react';
 import StampArtwork from './StampArtwork.jsx';
 import { newestFirst, recordDetails } from '../lib/records.js';
@@ -15,9 +16,9 @@ export default function StampDetails({ stamp, records, onClose }) {
     };
   }, []);
   return <dialog ref={dialog} className="stamp-detail-dialog" aria-labelledby={title} onCancel={e => { e.preventDefault(); onClose(); }}>
-    <header className="stamp-detail-header"><div><h2 id={title}>这款饮品的印记</h2><p>{stamp.brand || '我的一杯'} · {stamp.name}</p></div><button type="button" autoFocus className="btn-icon" aria-label="关闭印章详情" onClick={onClose}>×</button></header>
+    <header className="stamp-detail-header"><div><h2 id={title}>这款饮品的印记</h2><p>{stamp.brand || '我的一杯'} · {stamp.name}</p></div><ActionButton variant="icon" autoFocus aria-label="关闭印章详情" onClick={onClose}>×</ActionButton></header>
     <div className="stamp-detail-body">
-      <div className="drink-stamp-face stamp-detail-art" style={{ color: stamp.design.ink }}>
+      <div className="drink-stamp-face stamp-detail-art" style={{ '--stamp-ink': stamp.design.ink }}>
         <StampArtwork design={stamp.design} />
         <span className="drink-stamp-type"><strong>{stamp.name.length > 12 ? `${stamp.name.slice(0, 11)}…` : stamp.name}</strong><span>{stamp.brand || '我的一杯'}</span></span>
         <span className="drink-stamp-date">{stamp.date.replaceAll('-', '.')}</span>
