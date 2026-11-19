@@ -20,7 +20,7 @@ export async function compressFile(file) {
   try { return encodeImage(canvasFor(await loadImage(url))); }
   finally { URL.revokeObjectURL(url); }
 }
-export function cropForeground(canvas) {
+export function cropForeground(canvas, padding = 8) {
   const { width, height } = canvas;
   const data = canvas.getContext('2d').getImageData(0, 0, width, height).data;
   let left = width, top = height, right = 0, bottom = 0, visible = 0;
@@ -32,8 +32,10 @@ export function cropForeground(canvas) {
   }
   if (visible < 50 || right <= left || bottom <= top) throw new Error('没有识别出清晰主体，请换一张照片。');
   const result = document.createElement('canvas');
-  result.width = right - left + 17; result.height = bottom - top + 17;
-  result.getContext('2d').drawImage(canvas, left, top, right - left + 1, bottom - top + 1, 8, 8, right - left + 1, bottom - top + 1);
+  const subjectWidth = right - left + 1, subjectHeight = bottom - top + 1;
+  result.width = subjectWidth + padding * 2;
+  result.height = subjectHeight + padding * 2;
+  result.getContext('2d').drawImage(canvas, left, top, subjectWidth, subjectHeight, padding, padding, subjectWidth, subjectHeight);
   return encodeImage(result);
 }
 export async function removeSolidBackground(source) {
