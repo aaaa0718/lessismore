@@ -54,6 +54,6 @@ export default function PhotoEditor({ photo, onChange, onBusy }) {
         <p className="mt-2 text-[11px] leading-relaxed text-muted" role="status">{status}</p>
       </div>
     </div>
-    <p className="mt-3 text-[10px] leading-relaxed text-muted">AI 在本机处理，照片不上传。首次加载约 16MB，支持断点续传。尽量拍单个杯子；复杂背景和透明杯边缘请检查预览。</p>
+    <p className="mt-3 text-[10px] leading-relaxed text-muted">AI 在本机处理，照片不上传。首次加载约 16MB{window.isSecureContext ? '，支持断点续传' : ''}。尽量拍单个杯子；复杂背景和透明杯边缘请检查预览。</p>
   </section>;
 }

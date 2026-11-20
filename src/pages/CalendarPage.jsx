@@ -52,7 +52,7 @@ export default function CalendarPage() {
         const cups = items.filter(row => row.date === day);
         return <button key={day} type="button" onClick={() => chooseDay(day)} aria-label={`${shortDate(parseDate(day))}，${cups.length}杯`} aria-pressed={day === selectedDate} aria-current={day === dateKey(new Date()) ? "date" : undefined} className={`month-day ${cups.length ? 'has-drink' : ''} ${day === dateKey(new Date()) ? "is-calendar-today" : ""} ${day === selectedDate ? 'border-lilac-dark bg-lilac/65' : day === dateKey(new Date()) ? 'border-2 border-lilac-dark/70 bg-paper/75' : 'border-sky-dark/30 bg-paper/65'}`}>
           <span className="calendar-date-number">{parseDate(day).getDate()}</span>
-          {cups.length > 0 && <CupPhoto tight className="sticker calendar-cup" src={photoSrc(cups.at(-1))} alt="" />}
+          {cups.length > 0 && <CupPhoto balanceBody className="sticker calendar-cup" src={photoSrc(cups.at(-1))} alt="" />}
           {cups.length > 1 && <span className="absolute -right-1 -top-1 z-20 grid h-5 min-w-5 place-items-center rounded-full border-2 border-sky bg-lilac-dark px-1 text-[9px] text-white">{cups.length}</span>}
         </button>;
       })}</div>

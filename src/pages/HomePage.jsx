@@ -59,7 +59,7 @@ export default function HomePage() {
        <span className="week-weekday">{'一二三四五六日'[index]}</span>
        <span className="week-date">{date.getDate()}</span>
        <span className="week-cup-space">
-         <CupPhoto className={`week-cup ${drink ? 'sticker' : 'week-cup-empty'}`}
+         <CupPhoto balanceBody={Boolean(drink)} className={`week-cup ${drink ? 'sticker' : 'week-cup-empty'}`}
            src={drink ? photoSrc(drink) : asset('drinks/empty.svg')} alt="" />
          {!drink && <span className="week-add-mark" aria-hidden="true">+</span>}
          {cups.length > 1 && <span className="week-count">{cups.length} 杯</span>}
